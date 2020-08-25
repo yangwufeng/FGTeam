@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIModel\ApiResultModel.cs" />
+    <Compile Include="APIModel\QueryUser.cs" />
+    <Compile Include="APIModel\QueryUserId.cs" />
     <Compile Include="APIModel\TaskQueryModel.cs" />
     <Compile Include="BLLModel\BLLResult.cs" />
     <Compile Include="BLLModel\BLLResultCode.cs" />

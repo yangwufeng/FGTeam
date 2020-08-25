@@ -197,6 +197,15 @@ namespace BLL.Services
         //{
         //    LogContent(title, bllResult.Msg, userCode, bllResult.Success ? LogLevel.Success : LogLevel.Failure);
         //}
-
+        //public BLLResult<int?> LogContent(LogTitle logTitle, string log, string userCode, LogLevel flag)
+        //{
+        //    ContentLog contentLog = new ContentLog();
+        //    contentLog.Title = logTitle.ToString();
+        //    contentLog.Content = log;
+        //    contentLog.Flag = flag.ToString();
+        //    contentLog.Created = DateTime.Now;
+        //    contentLog.CreatedBy = userCode.ToString();
+        //    return AppSession.Dal.InsertCommonModel<ContentLog>(contentLog);
+        //}
     }
 }
