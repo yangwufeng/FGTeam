@@ -42,6 +42,65 @@ namespace BLL.Services
             }
         }
 
+        public BLLResult CreateSRMInfor(SRMStatusUpdateRequest srminfo)
+        {
+            using (IDbConnection connection = AppSession.DAL.GetConnection())
+            {
+                IDbTransaction trans = null;
+                try
+                {
+                    connection.Open();
+                    trans = connection.BeginTransaction();
+                    var result = CreateSRMInfos(connection, trans, srminfo);
+                    if (result.Success)
+                    {
+                        trans.Commit();
+                        return BLLResultFactory.Success();
+                    }
+                    else
+                    {
+                        trans.Rollback();
+                        return BLLResultFactory.Error(result.Msg);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    trans?.Rollback();
+                    return BLLResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
+                }
+            }
+        }
+
+
+        public BLLResult AddSize(EquipmentSiteRequest srminfo)
+        {
+            using (IDbConnection connection = AppSession.DAL.GetConnection())
+            {
+                IDbTransaction trans = null;
+                try
+                {
+                    connection.Open();
+                    trans = connection.BeginTransaction();
+                    var result = AddSizeS(connection, trans, srminfo);
+                    if (result.Success)
+                    {
+                        trans.Commit();
+                        return BLLResultFactory.Success();
+                    }
+                    else
+                    {
+                        trans.Rollback();
+                        return BLLResultFactory.Error(result.Msg);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    trans?.Rollback();
+                    return BLLResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
+                }
+            }
+        }
+
         private BLLResult CreateUser(IDbConnection connection, IDbTransaction transaction, User user)
         {
             var temp = AppSession.DAL.InsertCommonModel<User>(user);
@@ -49,11 +108,57 @@ namespace BLL.Services
             {
                 return BLLResultFactory.Success();
             }
+            else
             {
                 return BLLResultFactory.Error(temp.Msg);
             }
         }
+        
+        private BLLResult AddSizeS(IDbConnection connection, IDbTransaction transaction, EquipmentSiteRequest srminfos)
+        {
 
+            try
+            {
+                var temp = AppSession.DAL.InsertCommonModel<EquipmentSiteRequest>(srminfos);
+                if (temp.Success)
+                {
+                    return BLLResultFactory.Success();
+                }
+                else
+                {
+                    return BLLResultFactory.Error(temp.Msg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BLLResultFactory.Error(ex.Message);
+            }
+        
+        }
+
+        private BLLResult CreateSRMInfos(IDbConnection connection, IDbTransaction transaction, SRMStatusUpdateRequest srminfos)
+        {
+
+            try
+            {
+                var temp = AppSession.DAL.InsertCommonModel<SRMStatusUpdateRequest>(srminfos);
+                if (temp.Success)
+                {
+                    return BLLResultFactory.Success();
+                }
+                else
+                {
+                    return BLLResultFactory.Error(temp.Msg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BLLResultFactory.Error(ex.Message);
+            }
+
+        }
         public BLLResult<QueryUser> SelectUser(int Id)
         {
             try

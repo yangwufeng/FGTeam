@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Models.APIModel;
 using Models.BLLModel;
 using Models.Model;
 using System;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace UI
 {
@@ -26,6 +28,29 @@ namespace UI
         public MainWindow()
         {
             InitializeComponent();
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(1);
+            dispatcherTimer.Start();
+        }
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                var data = AppSession.DAL.GetCommonModelBy<SRMStatusUpdateRequest>("order by Id desc limit 10,50");
+                this.dgv_1.ItemsSource = data.Data.OrderByDescending(x => x.Id);
+
+                var temp = AppSession.DAL.GetCommonModelBy<EquipmentSiteRequest>("order by Id desc limit 10,50");
+                this.mm.ItemsSource = temp.Data.OrderByDescending(x => x.Id);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"{ex.Message}");
+            }
+          
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -33,29 +58,58 @@ namespace UI
             this.Close();
         }
 
-        private void Requse_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            User user = new User();
-            user.Id = 121;
-            user.UserName = "YANGWUFENG";
-            user.UserCode = "12";
-            user.Address = "311";
-            user.Created = null;
-            user.CreatedBy = "FG";
-            user.Disable = false;
-            user.Partment = "4";
-            user.Password = "123456";
-            user.Phone = "Cs";
-            user.Remark = "测试";
-            user.Updated = null;
-            user.Updatedby = "CS";
-
-            var temp = AppSession.CommonService.PostJson<User>(user).Result;
-            if (temp.Success)
+            try
             {
-                BLLResultFactory.Success(temp.Data, null);
+                SRMStatusUpdateRequest sRMStatusUpdateRequest = new SRMStatusUpdateRequest();
+                sRMStatusUpdateRequest.Fault = "1";
+                sRMStatusUpdateRequest.FaultCode = "1";
+                sRMStatusUpdateRequest.SrmNo = "1";
+                sRMStatusUpdateRequest.SrmStatus = 0;
+               var s= AppSession.DAL.InsertCommonModel<SRMStatusUpdateRequest>(sRMStatusUpdateRequest);
+                if (s.Success)
+                {
+                    MessageBox.Show($"{s.Msg}");
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+               MessageBox.Show($"{ex.ToString()}");
+            }
+          
+
+
+        }
+
+        private void xx_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                EquipmentSiteRequest site = new EquipmentSiteRequest();
+                site.SrmNo = "1";
+                site.Y = 1;
+                site.X = 1;
+                var s = AppSession.DAL.InsertCommonModel<EquipmentSiteRequest>(site);
+                if (!s.Success)
+                {
+                    MessageBox.Show($"{s.Msg}");
+
+                }
+
+                var temp = AppSession.DAL.GetCommonModelBy<EquipmentSiteRequest>("");
+                this.mm.ItemsSource = temp.Data;
+                MessageBox.Show($"{s.Msg}");
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"{ex.ToString()}");
             }
         }
     }
-    }
+}
 

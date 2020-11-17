@@ -64,6 +64,64 @@ namespace API.Controllers
             }
         }
 
+
+
+      
+    
+       /// <summary>
+       /// 添加报警信息
+       /// </summary>
+       /// <param name="srminfo"></param>
+       /// <returns></returns>
+        [HttpPost]
+        public BLLResult SrmStatusUpdate([FromBody] SRMStatusUpdateRequest srminfo)
+        {
+            try
+            {
+                var result = AppSession.TaskService.CreateSRMInfor(srminfo);
+                if (result.Success)
+                {
+                    return result;
+                }
+                else
+                {
+                    return BLLResultFactory.Error(result.Msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BLLResultFactory.Error(ex.Message);
+            }
+        }
+
+
+
+        /// <summary>
+        /// 添加位置
+        /// </summary>
+        /// <param name="srminfo"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public BLLResult AddSize([FromBody] EquipmentSiteRequest srminfo)
+        {
+            try
+            {
+                var result = AppSession.TaskService.AddSize(srminfo);
+                if (result.Success)
+                {
+                    return result;
+                }
+                else
+                {
+                    return BLLResultFactory.Error(result.Msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BLLResultFactory.Error(ex.Message);
+            }
+        }
+
         // PUT: api/APICarete/5
         //public void Put(int id, [FromBody] string value)
         //{

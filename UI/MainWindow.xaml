@@ -7,8 +7,81 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
     <Grid>
-        <StatusBar>
-            <Button Width=" 140" Height=" 50" Name="Requse" Content="请求接口" FontSize="20" Click="Requse_Click"></Button>
-        </StatusBar>
+        <StackPanel>
+          
+        </StackPanel>
+
+        <DockPanel x:Name="DPMain"  HorizontalAlignment="Center"  VerticalAlignment="Top" >
+            <DataGrid x:Name="dgv_1"  IsReadOnly="False" SelectionUnit="Cell" CanUserAddRows="False"  AutoGenerateColumns="False">
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255"   BorderThickness="1,1,1,5"
+                                                  >
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock  Foreground="White" FontWeight="Bold" Text="{Binding Path=Name}"/>
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="编号" Binding="{Binding SrmNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="状态" Binding="{Binding SrmStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="错误代码" Binding="{Binding FaultCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="错误信息" Binding="{Binding Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid x:Name="mm"  IsReadOnly="False" SelectionUnit="Cell" CanUserAddRows="False"  AutoGenerateColumns="False" Margin="5px,0,0,0">
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255"   BorderThickness="1,1,1,5"
+                                                  >
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock  Foreground="White" FontWeight="Bold" Text="{Binding Path=Name}"/>
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="编号" Binding="{Binding SrmNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="X轴" Binding="{Binding X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Y轴" Binding="{Binding Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Width="50" Height="50" Click="Button_Click">
+            </Button>
+            <Button  x:Name="xx" Width="50" Height="50" Click="xx_Click" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  />
+        </DockPanel>
     </Grid>
 </Window>
