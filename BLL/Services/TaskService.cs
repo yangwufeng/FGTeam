@@ -113,7 +113,7 @@ namespace BLL.Services
                 return BLLResultFactory.Error(temp.Msg);
             }
         }
-        
+
         private BLLResult AddSizeS(IDbConnection connection, IDbTransaction transaction, EquipmentSiteRequest srminfos)
         {
 
@@ -134,7 +134,7 @@ namespace BLL.Services
 
                 return BLLResultFactory.Error(ex.Message);
             }
-        
+
         }
 
         private BLLResult CreateSRMInfos(IDbConnection connection, IDbTransaction transaction, SRMStatusUpdateRequest srminfos)
@@ -173,7 +173,7 @@ namespace BLL.Services
                     item.Address = data.Address;
                     return BLLResultFactory<QueryUser>.Success(item);
                 }
-                else 
+                else
                 {
                     return BLLResultFactory<QueryUser>.Error(result.Msg);
                 }
@@ -185,8 +185,8 @@ namespace BLL.Services
         }
         private BLLResult<User> SelectByUserId(int Id)
         {
-     var temp=AppSession.DAL.GetCommonModelBy<User>($"where Id={Id}");
-            if (temp.Success&&temp.Data.Count>0)
+            var temp = AppSession.DAL.GetCommonModelBy<User>($"where Id={Id}");
+            if (temp.Success && temp.Data.Count > 0)
             {
                 return BLLResultFactory<User>.Success(temp.Data[0]);
             }

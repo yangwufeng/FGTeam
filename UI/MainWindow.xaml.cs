@@ -39,9 +39,16 @@ namespace UI
             try
             {
                 var data = AppSession.DAL.GetCommonModelBy<SRMStatusUpdateRequest>("order by Id desc limit 10,50");
+            
+                var temp = AppSession.DAL.GetCommonModelBy<EquipmentSiteRequest>("order by Id desc limit 10,50");
+
+           
+                if (!temp.Success&& !data.Success)
+                {
+                    return;
+                }
                 this.dgv_1.ItemsSource = data.Data.OrderByDescending(x => x.Id);
 
-                var temp = AppSession.DAL.GetCommonModelBy<EquipmentSiteRequest>("order by Id desc limit 10,50");
                 this.mm.ItemsSource = temp.Data.OrderByDescending(x => x.Id);
             }
             catch (Exception ex)

@@ -17,14 +17,14 @@ namespace API.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-       
-       /// <summary>
-       /// 查询用户
-       /// </summary>
-       /// <param name="Id"></param>
-       /// <returns></returns>
-       [HttpPost]
-         public BLLResult<QueryUser> SelectUserById([FromBody]QueryUserId Id)
+
+        /// <summary>
+        /// 查询用户
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public BLLResult<QueryUser> SelectUserById([FromBody] QueryUserId Id)
         {
             try
             {
@@ -66,13 +66,13 @@ namespace API.Controllers
 
 
 
-      
-    
-       /// <summary>
-       /// 添加报警信息
-       /// </summary>
-       /// <param name="srminfo"></param>
-       /// <returns></returns>
+
+
+        /// <summary>
+        /// 添加报警信息
+        /// </summary>
+        /// <param name="srminfo"></param>
+        /// <returns></returns>
         [HttpPost]
         public BLLResult SrmStatusUpdate([FromBody] SRMStatusUpdateRequest srminfo)
         {

@@ -40,6 +40,8 @@
                     </GroupStyle>
                 </DataGrid.GroupStyle>
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
                     <DataGridTextColumn Header="编号" Binding="{Binding SrmNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="状态" Binding="{Binding SrmStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="错误代码" Binding="{Binding FaultCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -74,6 +76,8 @@
                     </GroupStyle>
                 </DataGrid.GroupStyle>
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
                     <DataGridTextColumn Header="编号" Binding="{Binding SrmNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="X轴" Binding="{Binding X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Y轴" Binding="{Binding Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
