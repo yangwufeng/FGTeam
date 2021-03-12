@@ -131,7 +131,6 @@ namespace TestClient
                     element.SetAttributeValue("温度1", i);
                     element.SetAttributeValue("温度2", i + 1);
                     element.SetAttributeValue("温度3", i + 2);
-                    Logger.Info(i);
 
                     server.PublishTopicPayload("A", Encoding.UTF8.GetBytes(element.ToString()));
 
