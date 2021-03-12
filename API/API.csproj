@@ -136,6 +136,7 @@
     <Compile Include="Common\ApiResultAttribute.cs" />
     <Compile Include="Controllers\APICareteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

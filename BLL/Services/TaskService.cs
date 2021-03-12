@@ -183,6 +183,10 @@ namespace BLL.Services
                 return BLLResultFactory<QueryUser>.Error(ex.Message);
             }
         }
+
+
+
+
         private BLLResult<User> SelectByUserId(int Id)
         {
             var temp = AppSession.DAL.GetCommonModelBy<User>($"where Id={Id}");

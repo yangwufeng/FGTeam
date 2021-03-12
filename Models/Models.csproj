@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIModel\ApiResultModel.cs" />
+    <Compile Include="APIModel\credentials.cs" />
     <Compile Include="APIModel\EquipmentSiteRequest.cs" />
     <Compile Include="APIModel\QueryUser.cs" />
     <Compile Include="APIModel\QueryUserId.cs" />
@@ -60,6 +61,10 @@
     <Compile Include="Model\InterfaceLog.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestEntity\PipeModel.cs" />
+    <Compile Include="RequestEntity\PipeNoBackEntity.cs" />
+    <Compile Include="Response\IResponse.cs" />
+    <Compile Include="Response\Response.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

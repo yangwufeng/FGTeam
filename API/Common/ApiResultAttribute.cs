@@ -41,9 +41,9 @@ namespace API.Common
             result.Data = bllResule.Data;
             result.Msg = bllResule.Msg;
 
-            AppSession.LogService.LogInterface(actionExecutedContext.ActionContext.ActionDescriptor.ActionName, requestString, JsonConvert.SerializeObject(result), result.Code == System.Net.HttpStatusCode.OK ? LogLevel.Success : LogLevel.Error, "", "");
+            AppSession.LogService.LogInterface(actionExecutedContext.ActionContext.ActionDescriptor.ActionName, requestString, JsonConvert.SerializeObject(bllResule.Data), result.Code == System.Net.HttpStatusCode.OK ? LogLevel.Success : LogLevel.Error, "", "");
             //回复结果 以及数据
-            actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(System.Net.HttpStatusCode.OK, result);
+            actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(System.Net.HttpStatusCode.OK, bllResule.Data);
         }
     }
 }
