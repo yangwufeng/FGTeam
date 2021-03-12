@@ -23,6 +23,7 @@ namespace TestFramenWork
         {
             try
             {
+                logger.Info("徐杰好强");
                 //logger.Error("发生致命错误");
                 logger.Trace("输出一条记录信息成功！");//最常见的记录信息，一般用于普通输出   
                 logger.Debug("输出一条Debug信息成功！"); //同样是记录信息，不过出现的频率要比Trace少一些，一般用来调试程序   
