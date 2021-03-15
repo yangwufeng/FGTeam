@@ -13,7 +13,7 @@ namespace TestFramenWork
 
         static void Main(string[] args)
         {
-            //INog 日志操作。
+            //NLog 日志操作。
             //M1();
 
             //抽象类实现
@@ -22,7 +22,7 @@ namespace TestFramenWork
 
         }
 
-        #region INog记录到数据库
+        #region NLog记录到数据库
 
         //public static Logger logger = LogManager.GetLogger("SimpleDemo");
         //static void Main(string[] args)
@@ -36,7 +36,7 @@ namespace TestFramenWork
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// INog记录到数据库
+        /// NLog记录到数据库
         /// </summary>
         static void M1()
         {
