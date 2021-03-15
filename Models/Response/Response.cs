@@ -49,7 +49,7 @@ namespace Models.Response
         /// <summary>
         /// 回传的结果
         /// </summary>
-        public T Result { get; set; }
+        public new T Result { get; set; }
     }
 
     public enum RetCode

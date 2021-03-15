@@ -10,7 +10,7 @@ namespace TestFramenWork
 {
     class Program
     {
-     
+
         static void Main(string[] args)
         {
             //INog 日志操作。
@@ -64,6 +64,7 @@ namespace TestFramenWork
                 logger.Fatal("输出一条致命信息成功！");//致命异常信息。一般来讲，发生致命异常之后程序将无法继续执行。   
                 tasks.Add(task);
                 Task.WhenAll(tasks.ToArray());
+                WriteLog(LogLevel.Error, "AA", "A", "a", "aa", "a", "a");
                 Console.ReadKey();
             }
             catch (Exception EX)
@@ -71,8 +72,8 @@ namespace TestFramenWork
 
                 throw new Exception(EX.Message);
             }
-            //WriteLog(LogLevel.Error,"AA","A","a","aa","a","a");
-            static void WriteLog(LogLevel levle, string appName, string moduleName, string procName, string logLevel, string logTitle, string logMessage)
+ 
+            void WriteLog(LogLevel levle, string appName, string moduleName, string procName, string logLevel, string logTitle, string logMessage)
             {
                 LogEventInfo ei = new LogEventInfo(levle, "", "");
                 ei.Properties["appName"] = appName;
