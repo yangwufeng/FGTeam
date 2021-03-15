@@ -42,7 +42,6 @@ namespace TestFramenWork
         {
             try
             {
-                string Ip = null;
                 List<Task> tasks = new List<Task>();
 
                 var task = Task.Run(() =>
@@ -53,7 +52,7 @@ namespace TestFramenWork
                         {
                             return n += m.ToString() + ";";
                         }, n => n.TrimEnd(';'));
-                        logger.Info(ips);
+                        logger.Info(ips);                   
                     }
                 });
                 logger.Trace("输出一条记录信息成功！");//最常见的记录信息，一般用于普通输出   
