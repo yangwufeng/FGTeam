@@ -128,7 +128,7 @@ namespace TestFramenWork.SocketObj
                 string str3 = "set Pos=54,62";
                 byte[] buffer3 = asciiEncoding.GetBytes(str3);
 
-                string str4 = "set M1 =" + barcode;
+                string str4 = "setall content =" + barcode;
                 byte[] buffer4 = asciiEncoding.GetBytes(str4);
                 barcodeForDel = barcode;
                 string str7 = "set Size=30,13";
@@ -199,9 +199,13 @@ namespace TestFramenWork.SocketObj
         {
             string str6 = "start";
             byte[] buffer6 = asciiEncoding.GetBytes(str6);
+
+            string str4 = "setall content =" + "1324564564564";
+            var ss = asciiEncoding.GetBytes(str4);
             List<byte> list6 = new List<byte>();
-            list6.AddRange(buffer6);
+            list6.AddRange(ss);
             byte[] newBuffer6 = list6.ToArray();
+      
             dicSocket[ipForStart].Send(newBuffer6);
             int length = barcodeForDel.Length;
             //Thread.Sleep(2400 * length + 2000);
