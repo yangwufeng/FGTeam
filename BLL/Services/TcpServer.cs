@@ -38,7 +38,7 @@ namespace TestFramenWork.SocketObj
 
 
 
-                
+
 
 
 
@@ -72,7 +72,8 @@ namespace TestFramenWork.SocketObj
                     th.Start(socketSend);
                 }
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }
@@ -156,7 +157,7 @@ namespace TestFramenWork.SocketObj
                 byte[] newBuffer7 = list7.ToArray();
                 byte[] newBuffer8 = list8.ToArray();
 
-                string ip = socketSend==null?"0": socketSend.RemoteEndPoint.ToString();
+                string ip = socketSend == null ? "0" : socketSend.RemoteEndPoint.ToString();
                 ipForStart = ip;
                 dicSocket[ip].Send(newBuffer1);
                 //Thread.Sleep(1000);
@@ -191,23 +192,28 @@ namespace TestFramenWork.SocketObj
             {
             }
         }
-
+        public static object obj = new object();
         /// <summary>
         /// 发送打印命令
         /// </summary>
-        public static void Print()
+        public static void Print(string barcode)
         {
-            string str6 = "start";
-            byte[] buffer6 = asciiEncoding.GetBytes(str6);
+            lock (obj)
+            {
+                string str6 = "start";
+                byte[] buffer6 = asciiEncoding.GetBytes(str6);
 
-            string str4 = "setall content =" + "1324564564564";
-            var ss = asciiEncoding.GetBytes(str4);
-            List<byte> list6 = new List<byte>();
-            list6.AddRange(ss);
-            byte[] newBuffer6 = list6.ToArray();
-      
-            dicSocket[ipForStart].Send(newBuffer6);
-            int length = barcodeForDel.Length;
+                string str4 = "setall content =" + barcode;
+                var ss = asciiEncoding.GetBytes(str4);
+                List<byte> list6 = new List<byte>();
+                list6.AddRange(ss);
+                byte[] newBuffer6 = list6.ToArray();
+                //需要加上延迟 才能显示数据源发送成功
+                System.Threading.Thread.Sleep(1000);
+                dicSocket[ipForStart].Send(newBuffer6);
+                int length = barcodeForDel.Length;
+            }
+
             //Thread.Sleep(2400 * length + 2000);
         }
 

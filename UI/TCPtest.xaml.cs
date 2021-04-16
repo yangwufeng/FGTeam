@@ -35,8 +35,8 @@ namespace UI
         private void fason_Click(object sender, RoutedEventArgs e)
         {
             TcpServer.SendData(this.txt_name.Text);
-            TcpServer.Print();
-            TcpServer.DeleMark();
+            TcpServer.Print(this.txt_name.Text);
+            //TcpServer.DeleMark();
         }
     }
 }

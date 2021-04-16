@@ -41,6 +41,15 @@
     <Reference Include="DMSkin, Version=3.0.0.1000, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DMSkin.3.0.0.1000\lib\net45\DMSkin.dll</HintPath>
     </Reference>
+    <Reference Include="DMSkin.Core, Version=3.0.0.1000, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DMSkin.Core.3.0.0.1000\lib\net40\DMSkin.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DMSkin.WPF, Version=2.5.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DMSkin.WPF.2.5.1.1\lib\net40\DMSkin.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="HandyControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=45be8712787a1e5b, processorArchitecture=MSIL">
+      <HintPath>..\packages\HandyControl.3.1.0\lib\net472\HandyControl.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -103,6 +112,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resource\Styles\BaseStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TCPtest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
