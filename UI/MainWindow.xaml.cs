@@ -1,11 +1,14 @@
 ﻿using BLL;
+using Microsoft.Win32;
 using Models.APIModel;
 using Models.BLLModel;
 using Models.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,11 +42,11 @@ namespace UI
             try
             {
                 var data = AppSession.DAL.GetCommonModelBy<SRMStatusUpdateRequest>("order by Id desc limit 10,50");
-            
+
                 var temp = AppSession.DAL.GetCommonModelBy<EquipmentSiteRequest>("order by Id desc limit 10,50");
 
-           
-                if (!temp.Success&& !data.Success)
+
+                if (!temp.Success && !data.Success)
                 {
                     return;
                 }
@@ -56,7 +59,7 @@ namespace UI
 
                 MessageBox.Show($"{ex.Message}");
             }
-          
+
 
         }
 
@@ -74,7 +77,7 @@ namespace UI
                 sRMStatusUpdateRequest.FaultCode = "1";
                 sRMStatusUpdateRequest.SrmNo = "1";
                 sRMStatusUpdateRequest.SrmStatus = 0;
-               var s= AppSession.DAL.InsertCommonModel<SRMStatusUpdateRequest>(sRMStatusUpdateRequest);
+                var s = AppSession.DAL.InsertCommonModel<SRMStatusUpdateRequest>(sRMStatusUpdateRequest);
                 if (s.Success)
                 {
                     MessageBox.Show($"{s.Msg}");
@@ -89,9 +92,9 @@ namespace UI
             catch (Exception ex)
             {
 
-               MessageBox.Show($"{ex.ToString()}");
+                MessageBox.Show($"{ex.ToString()}");
             }
-          
+
 
 
         }
@@ -122,6 +125,62 @@ namespace UI
                 MessageBox.Show($"{ex.ToString()}");
             }
         }
+
+        private void 导入_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "表格文件 (*.xls,*.xlsx)|*.xls;*.xlsx";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.FilterIndex = 1;
+            if (openFileDialog.ShowDialog()==true)
+            {
+                DataTable dt = NopiModel.ExcelImport(openFileDialog.FileName);
+                if (dt == null)
+                {
+                    MessageBox.Show("读取失败");
+                    return;
+                }
+                //}
+                //var result = ExcelReader<TestModel>.ReadDataTable(dt, c =>
+                //{
+                //    #region dev
+                //    //c.For((k, v) => { k.No = v; }, "案件號");
+                //    //c.For((k, v) =>
+                //    //{
+                //    //    k.BeginTime = DateTime.Parse(v);
+                //    //}, "派工時間");
+                //    //c.For((k, v) => { k.EndTime = DateTime.Parse(v); ; }, "結案時間");
+                //    //c.For((k, v) =>
+                //    //{
+                //    //    k.Result = v;
+                //    //}, "處理時效");
+                //    #endregion
+                //    for (var i = 1; i < dt.Rows.Count; i++)
+                //    {
+                //        c.For((k, v) => { k.Result += v + Environment.NewLine; }, i);
+                //    }
+                //});
+                Thread t = new Thread(() =>
+                {
+                    //txtResult.BeginInvoke(new Action(() =>
+                    //{
+                    //    foreach (var item in result)
+                    //    {
+                    //        //txtResult.AppendText(item.No + "----------" + new TestModelExt().GetJishuanResult(item) + Environment.NewLine);
+                    //        txtResult.AppendText(item.Result + Environment.NewLine);
+                    //    }
+                    //}));
+
+                });
+
+                t.Start();
+            }
+
+        }
+
     }
+
+
+
 }
 

@@ -85,6 +85,8 @@
             </DataGrid>
             <Button Width="50" Height="50" Click="Button_Click">
             </Button>
+            <Button Width="50" Height="50" Name="导入" Click="导入_Click" >
+            </Button>
             <Button  x:Name="xx" Width="50" Height="50" Click="xx_Click" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  />
         </DockPanel>
     </Grid>

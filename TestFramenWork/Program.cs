@@ -3,16 +3,55 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using TestFramenWork.SocketObj;
 
 namespace TestFramenWork
 {
     class Program
     {
+        #region Socket字段
+        private static Socket socketSend;
+        private static Dictionary<string, Socket> dicSocket = new Dictionary<string, Socket>();
+        public static string mark = "";
+        #endregion
 
         static void Main(string[] args)
         {
+            TcpServer.Start();
+         
+            TcpServer.SendData("123456");
+            //TcpServer.Print();
+            //TcpServer.DeleMark();
+           
+            //int[] myarray = {100, 125, 129, 173,175, 191, 203, 234, 235,238,245,247,250,256,309,340,391,408,420,421,421,613,1894,1895,1984 };
+            //List<List<int>> mylist = new List<List<int>>();
+            //int length = myarray.Length;
+            //for (int i = 0; i < Math.Pow(2, length); i++)
+            //{
+            //    List<int> myint = new List<int>();
+            //    for (int j = 0; j < length; j++)
+            //    {
+            //        if (Convert.ToBoolean(i & (1 << j)))
+            //            myint.Add(myarray[j]);
+            //    }
+            //    mylist.Add(myint);
+            //}
+            //foreach (var a in mylist)
+            //{
+            //    if (a.Sum() == 6000)
+            //    {
+            //        foreach (var b in a)
+            //        {
+            //            Console.Write(b); Console.Write(",");
+            //        }
+            //        Console.WriteLine();
+            //    }
+            //}
+            //Console.ReadLine();
             //NLog 日志操作。
             //M1();
 
@@ -21,6 +60,10 @@ namespace TestFramenWork
 
 
         }
+
+
+
+
 
         #region NLog记录到数据库
 
@@ -62,6 +105,7 @@ namespace TestFramenWork
                 logger.Error("输出一条错误信息成功！");//错误信息  
                 logger.Fatal("输出一条致命信息成功！");//致命异常信息。一般来讲，发生致命异常之后程序将无法继续执行。   
                 tasks.Add(task);
+                //线程队列
                 Task.WhenAll(tasks.ToArray());
                 WriteLog(LogLevel.Error, "AA", "A", "a", "aa", "a", "a");
                 Console.ReadKey();
@@ -128,7 +172,7 @@ namespace TestFramenWork
             }
         }
         #endregion
-
+   
 
 
     }

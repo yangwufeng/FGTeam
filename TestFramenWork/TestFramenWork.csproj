@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SocketObj\TcpServer.cs" />
     <Compile Include="基础知识\抽象\Apple.cs" />
     <Compile Include="基础知识\抽象\Fruit.cs" />
     <Compile Include="基础知识\抽象\Orange.cs" />

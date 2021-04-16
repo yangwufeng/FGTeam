@@ -8,6 +8,7 @@ using HslCommunication.MQTT;
 using HslCommunication.Profinet.Melsec;
 using HslCommunication.Profinet.Siemens;
 using Newtonsoft.Json.Linq;
+using ServiceStack.Redis;
 
 namespace TestClient
 {
@@ -16,6 +17,17 @@ namespace TestClient
 
         static void Main(string[] args)
         {
+
+            RedisClient redis = new RedisClient("127.0.0.1", 6379);
+            var setResult = redis.Set("mykey", "Hello,world");
+            Console.WriteLine($"写入结果：{setResult}");
+            var readResult = redis.Get<string>("mykey");
+            Console.WriteLine($"读取结果：{readResult}");
+            //验证是否区分大小写
+            var read = redis.Get<string>("MYKEY");
+            Console.WriteLine($"大写结果：{read}");
+            Console.ReadKey();
+
             #region MyRegion
             //SiemensS7Net plc = new SiemensS7Net(SiemensPLCS.S1200, "127.0.0.1"); // 此处拿了本地虚拟的PLC测试
 
