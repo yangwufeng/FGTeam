@@ -57,9 +57,10 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <DockPanel>
+                        <StackPanel Margin="5">
                             <Button x:Name="btn_connect" Height="40"  Width="72"  Click="btn_connect_Click">连接</Button>
-                        </DockPanel>
+                            <TextBox Height="40" Width="75" Name="txt_Count">0</TextBox>
+                        </StackPanel>
                         <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
                             <ListBox x:Name="list_box1"></ListBox>
                         </DockPanel>

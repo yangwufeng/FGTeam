@@ -28,6 +28,7 @@ namespace UI
         private BackgroundWorker demoBGWorker = new BackgroundWorker();
         static TcpClient tcpClient;
         static NetworkStream stream;
+        bool Stop = false;
         /// <summary>
         /// 通讯协议格式
         /// </summary>
@@ -35,13 +36,14 @@ namespace UI
 
         private Socket SocketServer;
         private Socket Socketclient;
+        private static object obj = new object();
 
-        public Dictionary<string, Socket> dicSocket = new Dictionary<string, Socket>();
+        //public Dictionary<string, Socket> dicSocket = new Dictionary<string, Socket>();
 
+        ThreadSafeDictionary<string, Socket> dicSocket = new ThreadSafeDictionary<string, Socket>();
         public ClientServer()
         {
             InitializeComponent();
-         
         }
 
         private void open_Click(object sender, RoutedEventArgs e)
@@ -52,59 +54,107 @@ namespace UI
             SocketServer.Listen(10);
 
 
-            new Thread(delegate ()
+            lock (obj)
+            {
+                new Thread(delegate ()
             {
                 Socket clientSocket = null;
                 while (true)
                 {
+
+
                     Stopwatch sw = new Stopwatch();
                     // 开始计时
                     sw.Start();
 
+
                     clientSocket = SocketServer.Accept(); //一旦接受连接，创建一个客户端
-                    dicSocket.Add(clientSocket.RemoteEndPoint.ToString(), clientSocket);
+                    var RemoteEndPoint = string.Empty;
+                    dicSocket.Add(RemoteEndPoint=clientSocket.RemoteEndPoint.ToString(), clientSocket);
+
+
                     App.Current.Dispatcher.Invoke(() =>
                     {
-                        foreach (var item in dicSocket)
-                        {
-                            list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "连接ip：" + item.Key + "\n"));
-                        }
-
+                            list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "连接ip：" + RemoteEndPoint + "\n"));
                     });
+
+
+
 
                     Task.Run(() =>
+                {
+                    while (true)
                     {
-                        while (true)
-                        {
-                            var str = "";
+                        var str = "";
                             //服务端接收
                             byte[] buffer = new byte[1024 * 1024 * 2];
-                            int r = clientSocket.Receive(buffer);
-                            if (r == 0)
-                            {
-                                break;
-                            }
-                            if (encode.GetString(buffer, 0, r - 1) == "newmark")
-                            {
-                                str = encode.GetString(buffer, 0, r);
-
-                            }
-                            else
-                            {
-                                str = encode.GetString(buffer, 0, r);
-                                App.Current.Dispatcher.Invoke(() =>
-                                {
-                                    list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
-                                });
-                            }
+                        int r = clientSocket.Receive(buffer);
+                        if (r == 0)
+                        {
+                            break;
                         }
+                        if (encode.GetString(buffer, 0, r - 1) == "newmark")
+                        {
+                            str = encode.GetString(buffer, 0, r);
 
-                    });
-                   
+                        }
+                        else
+                        {
+                            str = encode.GetString(buffer, 0, r);
+                            App.Current.Dispatcher.Invoke(() =>
+                            {
+                                list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
+                            });
+                        }
+                    }
+
+                });
 
                 }
             })
+                { IsBackground = true }.Start();
+            }
+
+
+            new Thread(delegate ()
+            {
+                Task.Run(() =>
+                {
+
+                    while (true)
+                    {
+                        //this.Dispatcher.BeginInvoke((Action)delegate ()
+                        //{
+                        //    txt_Count.Text = SocketServer.Available.ToString();
+                        //});
+                        if (Stop)
+                        {
+                            continue;
+                        }
+                        App.Delay(1000);
+
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            List<string> keys = new List<string>();
+                            keys.AddRange(dicSocket.Keys);
+                            foreach (var item in keys)
+                            {
+                                if (dicSocket[item].Poll(10, SelectMode.SelectRead))
+                                {
+                                    dicSocket.Remove(item);
+                                }
+                                else
+                                {
+                                    txt_Count.Text = dicSocket.Values.Count.ToString();
+                                }
+                            }
+                        });
+                    }
+                });
+            })
             { IsBackground = true }.Start();
+
+
         }
 
         private void Btn_Send_Click(object sender, RoutedEventArgs e)
@@ -117,6 +167,10 @@ namespace UI
                 //bytes.AddRange(msgbyte);
                 //byte[] newBuffer4 = bytes.ToArray();
                 //需要加上延迟 才能显示数据源发送成功
+                if (item.Value.Poll(10, SelectMode.SelectRead))
+                {
+                    continue;
+                }
                 App.Delay(1000);
                 item.Value.Send(msgbyte);
             }
@@ -134,6 +188,10 @@ namespace UI
                 {
                     while (true)
                     {
+                        if (Stop)
+                        {
+                            continue;
+                        }
                         var str = "";
                         //客户端接收
                         byte[] buffer = new byte[1024 * 1024 * 2];
@@ -168,7 +226,7 @@ namespace UI
 
         private void Window_Closed(object sender, EventArgs e)
         {
-
+            Stop = true;
         }
 
         private void btn_Out_Click(object sender, RoutedEventArgs e)
@@ -182,11 +240,9 @@ namespace UI
 
         public TextBlock NewText(string log)
         {
-
             TextBlock textBlock = new TextBlock();
             textBlock.Text = log;
             textBlock.TextWrapping = TextWrapping.Wrap;
-
             return textBlock;
 
         }
@@ -227,4 +283,5 @@ namespace UI
             this.list_box.ScrollIntoView(this.list_box.SelectedItem);
         }
     }
+
 }
