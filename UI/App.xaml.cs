@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL.Services;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,7 +17,10 @@ namespace UI
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            TCPtest tCPtest = new TCPtest();
+            //TCPtest tCPtest = new TCPtest();
+            //tCPtest.ShowDialog();
+
+            ClientServer tCPtest = new ClientServer();
             tCPtest.ShowDialog();
             //UI线程未捕获异常处理事件（UI主线程）
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -26,7 +30,18 @@ namespace UI
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
         }
-
+        #region 毫秒延时 界面不会卡死
+        public static void Delay(int mm)
+        {
+            DateTime current = DateTime.Now;
+            while (current.AddMilliseconds(mm) > DateTime.Now)
+            {
+                DispatcherHelper.DoEvents();
+            }
+            return;
+        }
+        #endregion
+    
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Exception ex = e.Exception;

@@ -96,6 +96,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClientServer.xaml.cs">
+      <DependentUpon>ClientServer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NopiModel.cs" />
     <Compile Include="TCPtest.xaml.cs">
       <DependentUpon>TCPtest.xaml</DependentUpon>
@@ -103,6 +106,10 @@
     <Compile Include="Views\WinLogin.xaml.cs">
       <DependentUpon>WinLogin.xaml</DependentUpon>
     </Compile>
+    <Page Include="ClientServer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
