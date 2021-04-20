@@ -79,6 +79,11 @@ namespace TestFramenWork.SocketObj
         }
 
 
+        public static void lianjie()
+        {
+
+        }
+
         public static void Recive(object o)
         {
             try
@@ -196,7 +201,7 @@ namespace TestFramenWork.SocketObj
         /// <summary>
         /// 发送打印命令
         /// </summary>
-        public static void Print(string barcode)
+        public static Socket Print(string barcode)
         {
             lock (obj)
             {
@@ -211,12 +216,77 @@ namespace TestFramenWork.SocketObj
                 //需要加上延迟 才能显示数据源发送成功
                 System.Threading.Thread.Sleep(1000);
                 dicSocket[ipForStart].Send(newBuffer6);
+                return dicSocket[ipForStart];
                 int length = barcodeForDel.Length;
             }
 
             //Thread.Sleep(2400 * length + 2000);
         }
 
+
+        public static void ss()
+        {
+
+            Socket mysocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5052);
+            mysocket.Connect(ipEndPoint);
+            //mysocket.Listen(5);
+            Thread th = new Thread(Listens);
+            th.IsBackground = true;
+            th.Start(mysocket);//把负责监听的socketWatch传进去
+        }
+        public static void Listens(object o)
+        {
+            try
+            {
+                Socket socketWatch = o as Socket;
+                while (true)
+                {
+                    Thread th = new Thread(Recives);
+                    th.IsBackground = true;
+                    th.Start(socketSend);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public static void Recives(object o)
+        {
+            try
+            {
+                string mark = "";
+                string str = "";
+                Socket socketSend = o as Socket;
+                while (true)
+                {
+                    //客户端接收消息
+                    byte[] buffer = new byte[1024 * 1024 * 2];
+                    int r = socketSend.Receive(buffer);
+                    if (r == 0)
+                    {
+                        break;
+                    }
+                    if (Encoding.ASCII.GetString(buffer, 0, r - 1) == "newmark")
+                    {
+                        str = Encoding.ASCII.GetString(buffer, 0, r);
+                        mark = str;
+                    }
+                    else
+                    {
+                        str = Encoding.ASCII.GetString(buffer, 0, r);
+                    }
+
+                    //txt1.AppendText(str + "\r\n");
+                    //ShowMsg(socketSend.RemoteEndPoint + ":" + str);
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message);
+            }
+        }
         /// <summary>
         /// 清除打印信息
         /// </summary>
