@@ -6,9 +6,16 @@
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         Title="ClientServer" Height="450" Width="500" Closed="Window_Closed">
-    <Grid >
-
-        <DockPanel  >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="41*"></RowDefinition>
+            <RowDefinition Height="378*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel>
+            <Label>在线人:</Label>
+            <Label HorizontalAlignment="Left" Name="lab_Count"></Label>
+        </DockPanel>
+        <DockPanel Grid.Row="1" >
             <TabControl Name="TabControl1" >
                 <TabItem Header="服务端">
                     <Grid >
@@ -33,7 +40,7 @@
                         <DockPanel Grid.Column="2">
                             <TextBox Height="40" Margin="5" Name="txt_msg"></TextBox>
                         </DockPanel>
-                        <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+                        <DockPanel Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
                             <ListBox x:Name="list_box" >
                             </ListBox>
                         </DockPanel>
@@ -57,15 +64,14 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Margin="5">
+                        <DockPanel Margin="5">
                             <Button x:Name="btn_connect" Height="40"  Width="72"  Click="btn_connect_Click">连接</Button>
-                            <TextBox Height="40" Width="75" Name="txt_Count">0</TextBox>
-                        </StackPanel>
+                        </DockPanel>
                         <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
                             <ListBox x:Name="list_box1"></ListBox>
                         </DockPanel>
                         <DockPanel Grid.Column="1">
-                            <Button x:Name="btn_Out" Height="40"  Width="72" Click="btn_Out_Click" >发送</Button>  
+                            <Button x:Name="btn_Out" Height="40"  Width="72" Click="btn_Out_Click" >发送</Button>
                         </DockPanel>
                         <DockPanel Grid.Column="2">
                             <TextBox x:Name="txt_info" Height="40" ></TextBox>

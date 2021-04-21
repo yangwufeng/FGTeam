@@ -54,73 +54,72 @@ namespace UI
             SocketServer.Listen(10);
 
 
-            lock (obj)
-            {
-                new Thread(delegate ()
-            {
+
+            new Thread(delegate ()
+        {
+            //lock (obj)
+            //{
                 Socket clientSocket = null;
                 while (true)
                 {
 
 
                     Stopwatch sw = new Stopwatch();
-                    // 开始计时
-                    sw.Start();
+                        // 开始计时
+                        sw.Start();
 
 
                     clientSocket = SocketServer.Accept(); //一旦接受连接，创建一个客户端
                     var RemoteEndPoint = string.Empty;
-                    dicSocket.Add(RemoteEndPoint=clientSocket.RemoteEndPoint.ToString(), clientSocket);
+                    dicSocket.Add(RemoteEndPoint = clientSocket.RemoteEndPoint.ToString(), clientSocket);
 
 
                     App.Current.Dispatcher.Invoke(() =>
-                    {
-                            list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "连接ip：" + RemoteEndPoint + "\n"));
-                    });
-
-
+                        {
+                    list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "连接ip：" + RemoteEndPoint + "\n"));
+                });
 
 
                     Task.Run(() =>
-                {
-                    while (true)
-                    {
-                        var str = "";
-                            //服务端接收
-                            byte[] buffer = new byte[1024 * 1024 * 2];
-                        int r = clientSocket.Receive(buffer);
-                        if (r == 0)
-                        {
-                            break;
-                        }
-                        if (encode.GetString(buffer, 0, r - 1) == "newmark")
-                        {
-                            str = encode.GetString(buffer, 0, r);
+                         {
+                     while (true)
+                     {
+                         var str = "";
+                             //服务端接收
+                             byte[] buffer = new byte[1024 * 1024 * 2];
+                         int r = clientSocket.Receive(buffer);
+                         if (r == 0)
+                         {
+                             break;
+                         }
+                         if (encode.GetString(buffer, 0, r - 1) == "newmark")
+                         {
+                             str = encode.GetString(buffer, 0, r);
 
-                        }
-                        else
-                        {
-                            str = encode.GetString(buffer, 0, r);
-                            App.Current.Dispatcher.Invoke(() =>
-                            {
-                                list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
-                            });
-                        }
-                    }
+                         }
+                         else
+                         {
+                             str = encode.GetString(buffer, 0, r);
+                             App.Current.Dispatcher.Invoke(() =>
+                                 {
+                            list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
+                        });
+                         }
+                     }
 
-                });
+                 });
 
                 }
-            })
-                { IsBackground = true }.Start();
-            }
+            //}
+
+        })
+            { IsBackground = true }.Start();
 
 
             new Thread(delegate ()
             {
                 Task.Run(() =>
                 {
-
                     while (true)
                     {
                         //this.Dispatcher.BeginInvoke((Action)delegate ()
@@ -131,7 +130,6 @@ namespace UI
                         {
                             continue;
                         }
-                        App.Delay(1000);
 
                         this.Dispatcher.Invoke(() =>
                         {
@@ -145,7 +143,7 @@ namespace UI
                                 }
                                 else
                                 {
-                                    txt_Count.Text = dicSocket.Values.Count.ToString();
+                                    lab_Count.Content = dicSocket.Values.Count.ToString();
                                 }
                             }
                         });
@@ -171,7 +169,8 @@ namespace UI
                 {
                     continue;
                 }
-                App.Delay(1000);
+            Thread.Sleep(1000);
+
                 item.Value.Send(msgbyte);
             }
 
@@ -232,7 +231,8 @@ namespace UI
         private void btn_Out_Click(object sender, RoutedEventArgs e)
         {
             byte[] msgbyte = encode.GetBytes(this.txt_info.Text);
-            App.Delay(1000);
+            Thread.Sleep(1000);
+
 
             Socketclient.Send(msgbyte);
         }
