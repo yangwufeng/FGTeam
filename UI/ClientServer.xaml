@@ -20,10 +20,11 @@
                 <TabItem Header="服务端">
                     <Grid >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="74*"></ColumnDefinition>
+                            <ColumnDefinition Width="49*"/>
+                            <ColumnDefinition Width="123*"></ColumnDefinition>
+                            <ColumnDefinition Width="123*"></ColumnDefinition>
+                            <ColumnDefinition Width="123*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -31,20 +32,20 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <DockPanel>
+                        <DockPanel Grid.ColumnSpan="2">
                             <Button Name="open" Height="40" Click="open_Click">服务启动</Button>
                         </DockPanel>
-                        <DockPanel Grid.Column="1">
+                        <DockPanel Grid.Column="2">
                             <Button x:Name="Btn_Send" Height="40" Click="Btn_Send_Click">发送信息</Button>
                         </DockPanel>
-                        <DockPanel Grid.Column="2">
+                        <DockPanel Grid.Column="3">
                             <TextBox Height="40" Margin="5" Name="txt_msg"></TextBox>
                         </DockPanel>
-                        <DockPanel Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
-                            <ListBox x:Name="list_box" >
+                        <DockPanel Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                            <ListBox x:Name="list_box" ScrollViewer.CanContentScroll="False">
                             </ListBox>
                         </DockPanel>
-                        <StackPanel Grid.Column="3">
+                        <StackPanel Grid.Column="4">
                             <TextBox x:Name="ip" Height="40" Margin="5">127.0.0.1</TextBox>
                             <TextBox x:Name="port" Height="40" Margin="5">110</TextBox>
                         </StackPanel>

@@ -58,6 +58,7 @@
     <Compile Include="Enums\Accounts.cs" />
     <Compile Include="Enums\LogLevel.cs" />
     <Compile Include="Model\BaseModels.cs" />
+    <Compile Include="Model\EquipmentProp.cs" />
     <Compile Include="Model\InterfaceLog.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
