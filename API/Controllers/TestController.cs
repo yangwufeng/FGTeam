@@ -21,7 +21,7 @@ namespace API.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpPost]
-        public BLLResult<Response> GetCC(string  entity)
+        public BllResult<Response> GetCC(string  entity)
         {
             try
             {
@@ -58,11 +58,11 @@ namespace API.Controllers
                 list.Add(model2);
 
                 Result.Result = list;
-                return BLLResultFactory<Response>.Success(Result);
+                return BllResultFactory<Response>.Success(Result);
             }
             catch (Exception ex)
             {
-                return BLLResultFactory<Response>.Error(Result.Message=ex.Message);
+                return BllResultFactory<Response>.Error(Result.Message=ex.Message);
             }
         }
     }

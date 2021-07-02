@@ -19,9 +19,9 @@ namespace DAL
             ConnectStr = connectStr;
         }
         #region Data
-        public abstract BLLResult<List<T>> GetCommonModelBy<T>(string v);
+        public abstract BllResult<List<T>> GetCommonModelBy<T>(string v);
 
-        public abstract BLLResult<int?> InsertCommonModel<T>(T model);
+        public abstract BllResult<int?> InsertCommonModel<T>(T model);
         #endregion
     }
 }

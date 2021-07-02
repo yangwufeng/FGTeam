@@ -42,7 +42,7 @@ namespace API.Controllers
                     //}
                 }
             }
-            public async Task<BLLResult> add(User user)
+            public async Task<BllResult> add(User user)
             {
                 using (var client = new HttpClient())
                 {
@@ -72,11 +72,11 @@ namespace API.Controllers
                         var temp = JsonConvert.DeserializeObject<ApiResultModel>(responseBody);
                         if (temp.Code == HttpStatusCode.OK)
                         {
-                            return BLLResultFactory.Success(temp.Data, temp.Msg);
+                            return BllResultFactory.Success(temp.Data, temp.Msg);
                         }
                         else
                         {
-                            return BLLResultFactory.Success(temp.Data, temp.Msg);
+                            return BllResultFactory.Success(temp.Data, temp.Msg);
                         }
 
 
@@ -84,7 +84,7 @@ namespace API.Controllers
                     catch (Exception ex)
                     {
 
-                        return BLLResultFactory.Error(ex.Message); ;
+                        return BllResultFactory.Error(ex.Message); ;
                     }
 
                     //HttpResponseMessage response = await client.PostAsync("https://localhost:44367/api/AGVMutual/Get", content, cancellationTokenSource.Token).ConfigureAwait(false);

@@ -6,39 +6,39 @@ using System.Threading.Tasks;
 
 namespace Models.BLLModel
 {
-    public class BLLResult<T>
+    public class BllResult<T>
     {
-        public BLLResult() { }
+        public BllResult() { }
 
-        public BLLResultCode Code { get; set; }
+        public BllResultCode Code { get; set; }
         public T Data { get; set; }
         public string Msg { get; set; }
 
         #region 判断
         public bool Success
         {
-            get { return Code == BLLResultCode.OK ? true : false; }
+            get { return Code == BllResultCode.OK ? true : false; }
             set
             {
                 if (value)
                 {
-                    Code = BLLResultCode.OK;
+                    Code = BllResultCode.OK;
                 }
                 else
                 {
-                    Code = BLLResultCode.Fail;
+                    Code = BllResultCode.Fail;
                 }
             }
         }
         #endregion
 
-        public BLLResult(bool success, string msg, T data)
+        public BllResult(bool success, string msg, T data)
         {
             Success = success;
             Msg = msg;
             Data = data;
         }
-        public BLLResult(BLLResultCode code, string msg, T data)
+        public BllResult(BllResultCode code, string msg, T data)
         {
             Code = code;
             Msg = msg;
@@ -47,38 +47,38 @@ namespace Models.BLLModel
 
     }
 
-    public class BLLResult
+    public class BllResult
     {
-        public BLLResult() { }
+        public BllResult() { }
         public string Msg { get; set; }
         public object Data { get; set; }
-        public BLLResultCode Code { get; set; }
+        public BllResultCode Code { get; set; }
 
         #region 判断
         public bool Success
         {
-            get { return Code == BLLResultCode.OK ? true : false; }
+            get { return Code == BllResultCode.OK ? true : false; }
             set
             {
                 if (value)
                 {
-                    Code = BLLResultCode.OK;
+                    Code = BllResultCode.OK;
                 }
                 else
                 {
-                    Code = BLLResultCode.Fail;
+                    Code = BllResultCode.Fail;
                 }
             }
         }
         #endregion
 
-        public BLLResult(bool success, string msg, object data)
+        public BllResult(bool success, string msg, object data)
         {
             Success = success;
             Msg = msg;
             Data = data;
         }
-        public BLLResult(BLLResultCode code, string msg, object data)
+        public BllResult(BllResultCode code, string msg, object data)
         {
             Code = code;
             Msg = msg;

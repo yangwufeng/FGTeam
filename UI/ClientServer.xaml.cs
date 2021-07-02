@@ -28,7 +28,7 @@ namespace UI
         private BackgroundWorker demoBGWorker = new BackgroundWorker();
         static TcpClient tcpClient;
         static NetworkStream stream;
-        bool Stop = false;
+        bool Stop = true;
         /// <summary>
         /// 通讯协议格式
         /// </summary>
@@ -48,9 +48,9 @@ namespace UI
 
         private void open_Click(object sender, RoutedEventArgs e)
         {
-
+            open.IsEnabled = false;
             //IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(ip.Text), int.Parse(port.Text));//接收端所监听的接口,ip也可以用IPAddress.Any
-            IPEndPoint ipEnd = new IPEndPoint(IPAddress.Any, int.Parse(port.Text));//接收端所监听的接口,ip也可以用IPAddress.Any
+            IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse("192.168.10.11"), int.Parse(port.Text));//接收端所监听的接口,ip也可以用IPAddress.Any
 
             SocketServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);//初始化一个Socket对象
             SocketServer.Bind(ipEnd);//绑定套接字到一个IP地址和一个端口上(bind())；
@@ -63,7 +63,7 @@ namespace UI
             //lock (obj)
             //{
             Socket clientSocket = null;
-            while (true)
+            while (Stop)
             {
 
 
@@ -85,7 +85,7 @@ namespace UI
 
                 Task.Run(() =>
                      {
-                         while (true)
+                         while (Stop)
                          {
                              var str = "";
                              //服务端接收
@@ -106,6 +106,8 @@ namespace UI
                                  App.Current.Dispatcher.Invoke(() =>
                                          {
                                              list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
+                                             this.list_box.ScrollIntoView(this.list_box.ItemContainerGenerator);
+
                                          });
                              }
                          }
@@ -113,25 +115,22 @@ namespace UI
                      });
 
             }
+
+
             //}
 
         })
             { IsBackground = true }.Start();
 
 
-            new Thread(delegate ()
+
+            Task.Run(() =>
             {
 
-                while (true)
+                while (Stop)
                 {
-                    //this.Dispatcher.BeginInvoke((Action)delegate ()
-                    //{
-                    //    txt_Count.Text = SocketServer.Available.ToString();
-                    //});
-                    if (Stop)
-                    {
-                        continue;
-                    }
+
+                    Thread.Sleep(1000);
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -150,9 +149,8 @@ namespace UI
                         }
                     });
                 }
+            });
 
-            })
-            { IsBackground = true }.Start();
 
 
         }
@@ -175,67 +173,94 @@ namespace UI
 
         private void btn_connect_Click(object sender, RoutedEventArgs e)
         {
-            Socketclient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(this.ip.Text), Convert.ToInt32(port.Text));
-            Socketclient.Connect(ipep);
-            if (Socketclient.Connected)
-            {
-                new Thread(delegate ()
-                {
-                    while (true)
-                    {
-                        if (Stop)
-                        {
-                            continue;
-                        }
-                        var str = "";
-                        //客户端接收
-                        byte[] buffer = new byte[1024 * 1024 * 2];
-                        int r = Socketclient.Receive(buffer);
-                        if (r == 0)
-                        {
-                            break;
-                        }
-                        if (encode.GetString(buffer, 0, r - 1) == "newmark")
-                        {
-                            str = encode.GetString(buffer, 0, r);
 
-                        }
-                        else
+            Thread.Sleep(10);
+
+            try
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    Socketclient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(this.ip.Text), Convert.ToInt32(port.Text));
+                    Socketclient.Connect(ipep);
+                    if (Socketclient.Connected)
+                    {
+                        Task.Run(() =>
                         {
-                            str = encode.GetString(buffer, 0, r);
-                            App.Current.Dispatcher.Invoke(() =>
+                            while (Stop)
                             {
-                                list_box1.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
-                            });
-                        }
+
+                                var str = "";
+                                        //客户端接收
+                                        byte[] buffer = new byte[1024 * 1024 * 2];
+                                int r = Socketclient.Receive(buffer);
+                                if (r == 0)
+                                {
+                                    break;
+                                }
+                                if (encode.GetString(buffer, 0, r - 1) == "newmark")
+                                {
+                                    str = encode.GetString(buffer, 0, r);
+
+                                }
+                                else
+                                {
+                                    str = encode.GetString(buffer, 0, r);
+                                    App.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        list_box1.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
+                                        this.list_box1.ScrollIntoView(this.list_box1.SelectedItem);
+                                    });
+                                }
+
+                            }
+                        });
 
                     }
-                })
-                { IsBackground = true }.Start();
+                    else
+                    {
+
+                    }
+                });
             }
-            else
+            catch (Exception ex)
             {
-                
+
+                throw new Exception(ex.Message);
             }
+            finally
+            {
+
+
+            }
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             try
             {
-                SocketServer.Shutdown(SocketShutdown.Both);
-                Socketclient.Shutdown(SocketShutdown.Both);
-                SocketServer.Close();
-                Socketclient.Close();
-                Stop = true;
+                open.IsEnabled = true;
+                Stop = false;
+                Thread.Sleep(1000);
+                if (SocketServer == null)
+                    return;
+                if (!SocketServer.Connected)
+                    return;
+                SocketServer?.Shutdown(SocketShutdown.Both);
+                Socketclient?.Shutdown(SocketShutdown.Both);
+
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message);
-            }  
-          
+            }
+            finally
+            {
+                SocketServer?.Close();
+                Socketclient?.Close();
+            }
+
         }
 
         private void btn_Out_Click(object sender, RoutedEventArgs e)

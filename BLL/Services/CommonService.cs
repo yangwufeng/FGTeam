@@ -14,7 +14,7 @@ namespace BLL.Services
     public class CommonService : BaseService
     {
 
-        public async Task<BLLResult<T>> PostJson<T>(Object obj)
+        public async Task<BllResult<T>> PostJson<T>(Object obj)
         {
             using (var client = new HttpClient())
             {
@@ -30,19 +30,19 @@ namespace BLL.Services
                     var temp = JsonConvert.DeserializeObject<ApiResultModel<T>>(responseBody);
                     if (temp.Code == System.Net.HttpStatusCode.NoContent)//成功
                     {
-                        return BLLResultFactory<T>.Success(temp.Data, temp.Msg);
+                        return BllResultFactory<T>.Success(temp.Data, temp.Msg);
                     }
                     else
                     {
                         //AppSession.LogService.LogInterface(title, postJsonString, responseBody, LogLevel.Failure, "", "");
-                        return BLLResultFactory<T>.Error(temp.Data, temp.Msg);
+                        return BllResultFactory<T>.Error(temp.Data, temp.Msg);
                     }
                 }
                 catch (Exception ex)
                 {
                     //Logger.Log($"请求错误：{ex.Message}", LogLevel.Exception);
                     //AppSession.LogService.WriteExceptionLog(title, ex);
-                    return BLLResultFactory<T>.Error(ex.Message); ;
+                    return BllResultFactory<T>.Error(ex.Message); ;
                 }
             }
         }

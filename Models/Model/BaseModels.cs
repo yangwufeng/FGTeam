@@ -11,7 +11,7 @@ namespace Models.Model
     public class BaseModels : INotifyPropertyChanged
     {
         [Key]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public DateTime? Created { get; set; }
 

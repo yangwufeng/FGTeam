@@ -21,47 +21,47 @@ namespace PLCcommunication.Interfaces
         /// 连接，通常指定PLC的初始化请在连接中进行
         /// </summary>
         /// <returns></returns>
-        BLLResult Connect();
+        BllResult Connect();
 
         /// <summary>
         /// 断开,通常在断开之前请先停止逻辑处理，延迟后再调用
         /// </summary>
         /// <returns></returns>
-        BLLResult DisConnect();
+        BllResult DisConnect();
 
         /// <summary>
         /// 获取连接状态
         /// hack:对于使用OPC实现，此链接状态指示为client与OPC服务器的连接状态；所以使用OPC的情况下需要额外检测读写是否正确。
         /// </summary>
         /// <returns></returns>
-        BLLResult GetConnectStatus();
+        BllResult GetConnectStatus();
 
         /// <summary>
         /// 读取地址
         /// </summary>
         /// <param name="equipmentProps"></param>
         /// <returns></returns>
-        BLLResult Reads(List<EquipmentProp> equipmentProps);
+        BllResult Reads(List<EquipmentProp> equipmentProps);
 
         /// <summary>
         /// 写入地址
         /// </summary>
         /// <param name="equipmentProps"></param>
         /// <returns></returns>
-        BLLResult Writes(List<EquipmentProp> equipmentProps);
+        BllResult Writes(List<EquipmentProp> equipmentProps);
 
         /// <summary>
         /// 读取单个地址
         /// </summary>
         /// <param name="equipmentProp"></param>
         /// <returns></returns>
-        BLLResult Read(EquipmentProp equipmentProp);
+        BllResult Read(EquipmentProp equipmentProp);
 
         /// <summary>
         /// 写入单个地址
         /// </summary>
         /// <param name="equipmentProp"></param>
         /// <returns></returns>
-        BLLResult Write(EquipmentProp equipmentProp);
+        BllResult Write(EquipmentProp equipmentProp);
     }
 }

@@ -13,7 +13,7 @@ namespace BLL.Services
 {
     public class TaskService
     {
-        public BLLResult CreateUser(User user)
+        public BllResult CreateUser(User user)
         {
             using (IDbConnection connection = AppSession.DAL.GetConnection())
             {
@@ -26,23 +26,23 @@ namespace BLL.Services
                     if (result.Success)
                     {
                         trans.Commit();
-                        return BLLResultFactory.Success(result.Msg);
+                        return BllResultFactory.Success(result.Msg);
                     }
                     else
                     {
                         trans.Rollback();
-                        return BLLResultFactory.Error(result.Msg);
+                        return BllResultFactory.Error(result.Msg);
                     }
                 }
                 catch (Exception ex)
                 {
                     trans?.Rollback();
-                    return BLLResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
+                    return BllResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
                 }
             }
         }
 
-        public BLLResult CreateSRMInfor(SRMStatusUpdateRequest srminfo)
+        public BllResult CreateSRMInfor(SRMStatusUpdateRequest srminfo)
         {
             using (IDbConnection connection = AppSession.DAL.GetConnection())
             {
@@ -55,24 +55,24 @@ namespace BLL.Services
                     if (result.Success)
                     {
                         trans.Commit();
-                        return BLLResultFactory.Success();
+                        return BllResultFactory.Success();
                     }
                     else
                     {
                         trans.Rollback();
-                        return BLLResultFactory.Error(result.Msg);
+                        return BllResultFactory.Error(result.Msg);
                     }
                 }
                 catch (Exception ex)
                 {
                     trans?.Rollback();
-                    return BLLResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
+                    return BllResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
                 }
             }
         }
 
 
-        public BLLResult AddSize(EquipmentSiteRequest srminfo)
+        public BllResult AddSize(EquipmentSiteRequest srminfo)
         {
             using (IDbConnection connection = AppSession.DAL.GetConnection())
             {
@@ -85,36 +85,36 @@ namespace BLL.Services
                     if (result.Success)
                     {
                         trans.Commit();
-                        return BLLResultFactory.Success();
+                        return BllResultFactory.Success();
                     }
                     else
                     {
                         trans.Rollback();
-                        return BLLResultFactory.Error(result.Msg);
+                        return BllResultFactory.Error(result.Msg);
                     }
                 }
                 catch (Exception ex)
                 {
                     trans?.Rollback();
-                    return BLLResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
+                    return BllResultFactory.Error($"创建任务的时候出现异常{ex.Message}");
                 }
             }
         }
 
-        private BLLResult CreateUser(IDbConnection connection, IDbTransaction transaction, User user)
+        private BllResult CreateUser(IDbConnection connection, IDbTransaction transaction, User user)
         {
             var temp = AppSession.DAL.InsertCommonModel<User>(user);
             if (temp.Success)
             {
-                return BLLResultFactory.Success();
+                return BllResultFactory.Success();
             }
             else
             {
-                return BLLResultFactory.Error(temp.Msg);
+                return BllResultFactory.Error(temp.Msg);
             }
         }
 
-        private BLLResult AddSizeS(IDbConnection connection, IDbTransaction transaction, EquipmentSiteRequest srminfos)
+        private BllResult AddSizeS(IDbConnection connection, IDbTransaction transaction, EquipmentSiteRequest srminfos)
         {
 
             try
@@ -122,22 +122,22 @@ namespace BLL.Services
                 var temp = AppSession.DAL.InsertCommonModel<EquipmentSiteRequest>(srminfos);
                 if (temp.Success)
                 {
-                    return BLLResultFactory.Success();
+                    return BllResultFactory.Success();
                 }
                 else
                 {
-                    return BLLResultFactory.Error(temp.Msg);
+                    return BllResultFactory.Error(temp.Msg);
                 }
             }
             catch (Exception ex)
             {
 
-                return BLLResultFactory.Error(ex.Message);
+                return BllResultFactory.Error(ex.Message);
             }
 
         }
 
-        private BLLResult CreateSRMInfos(IDbConnection connection, IDbTransaction transaction, SRMStatusUpdateRequest srminfos)
+        private BllResult CreateSRMInfos(IDbConnection connection, IDbTransaction transaction, SRMStatusUpdateRequest srminfos)
         {
 
             try
@@ -145,21 +145,21 @@ namespace BLL.Services
                 var temp = AppSession.DAL.InsertCommonModel<SRMStatusUpdateRequest>(srminfos);
                 if (temp.Success)
                 {
-                    return BLLResultFactory.Success();
+                    return BllResultFactory.Success();
                 }
                 else
                 {
-                    return BLLResultFactory.Error(temp.Msg);
+                    return BllResultFactory.Error(temp.Msg);
                 }
             }
             catch (Exception ex)
             {
 
-                return BLLResultFactory.Error(ex.Message);
+                return BllResultFactory.Error(ex.Message);
             }
 
         }
-        public BLLResult<QueryUser> SelectUser(int Id)
+        public BllResult<QueryUser> SelectUser(int Id)
         {
             try
             {
@@ -171,30 +171,30 @@ namespace BLL.Services
                     item.Password = data.Password;
                     item.UserName = data.UserName;
                     item.Address = data.Address;
-                    return BLLResultFactory<QueryUser>.Success(item);
+                    return BllResultFactory<QueryUser>.Success(item);
                 }
                 else
                 {
-                    return BLLResultFactory<QueryUser>.Error(result.Msg);
+                    return BllResultFactory<QueryUser>.Error(result.Msg);
                 }
             }
             catch (Exception ex)
             {
-                return BLLResultFactory<QueryUser>.Error(ex.Message);
+                return BllResultFactory<QueryUser>.Error(ex.Message);
             }
         }
 
 
 
 
-        private BLLResult<User> SelectByUserId(int Id)
+        private BllResult<User> SelectByUserId(int Id)
         {
             var temp = AppSession.DAL.GetCommonModelBy<User>($"where Id={Id}");
             if (temp.Success && temp.Data.Count > 0)
             {
-                return BLLResultFactory<User>.Success(temp.Data[0]);
+                return BllResultFactory<User>.Success(temp.Data[0]);
             }
-            return BLLResultFactory<User>.Error(temp.Msg);
+            return BllResultFactory<User>.Error(temp.Msg);
         }
     }
 }

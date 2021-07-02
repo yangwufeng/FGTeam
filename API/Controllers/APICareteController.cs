@@ -24,7 +24,7 @@ namespace API.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpPost]
-        public BLLResult<QueryUser> SelectUserById([FromBody] QueryUserId Id)
+        public BllResult<QueryUser> SelectUserById([FromBody] QueryUserId Id)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return BLLResultFactory<QueryUser>.Error(ex.Message);
+                return BllResultFactory<QueryUser>.Error(ex.Message);
             }
         }
 
@@ -44,7 +44,7 @@ namespace API.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public BLLResult CreateUser([FromBody] User user)
+        public BllResult CreateUser([FromBody] User user)
         {
             try
             {
@@ -55,12 +55,12 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return BLLResultFactory.Error(result.Msg);
+                    return BllResultFactory.Error(result.Msg);
                 }
             }
             catch (Exception ex)
             {
-                return BLLResultFactory.Error(ex.Message);
+                return BllResultFactory.Error(ex.Message);
             }
         }
 
@@ -74,7 +74,7 @@ namespace API.Controllers
         /// <param name="srminfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public BLLResult SrmStatusUpdate([FromBody] SRMStatusUpdateRequest srminfo)
+        public BllResult SrmStatusUpdate([FromBody] SRMStatusUpdateRequest srminfo)
         {
             try
             {
@@ -85,12 +85,12 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return BLLResultFactory.Error(result.Msg);
+                    return BllResultFactory.Error(result.Msg);
                 }
             }
             catch (Exception ex)
             {
-                return BLLResultFactory.Error(ex.Message);
+                return BllResultFactory.Error(ex.Message);
             }
         }
 
@@ -102,7 +102,7 @@ namespace API.Controllers
         /// <param name="srminfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public BLLResult AddSize([FromBody] EquipmentSiteRequest srminfo)
+        public BllResult AddSize([FromBody] EquipmentSiteRequest srminfo)
         {
             try
             {
@@ -113,12 +113,12 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return BLLResultFactory.Error(result.Msg);
+                    return BllResultFactory.Error(result.Msg);
                 }
             }
             catch (Exception ex)
             {
-                return BLLResultFactory.Error(ex.Message);
+                return BllResultFactory.Error(ex.Message);
             }
         }
 

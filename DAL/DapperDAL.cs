@@ -22,7 +22,7 @@ namespace DAL
         }
 
         #region Data
-        public override BLLResult<List<T>> GetCommonModelBy<T>(string v)
+        public override BllResult<List<T>> GetCommonModelBy<T>(string v)
         {
             using (IDbConnection connection = GetConnection())
             {
@@ -31,32 +31,32 @@ namespace DAL
                     List<T> list = connection.GetList<T>(v).ToList();
                     if (list != null && list.Count > 0)
                     {
-                        return BLLResultFactory<List<T>>.Success(list, "成功");
+                        return BllResultFactory<List<T>>.Success(list, "成功");
                     }
                     else
                     {
-                        return BLLResultFactory<List<T>>.Error("未查询到数据");
+                        return BllResultFactory<List<T>>.Error("未查询到数据");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return BLLResultFactory<List<T>>.Error("发生异常:" + ex.Message);
+                    return BllResultFactory<List<T>>.Error("发生异常:" + ex.Message);
                 }
             }
         }
 
 
-        public override BLLResult<int?> InsertCommonModel<T>(T model)
+        public override BllResult<int?> InsertCommonModel<T>(T model)
         {
             using (IDbConnection connection = GetConnection())
             {
                 try
                 {
-                    return BLLResultFactory<int?>.Success(connection.Insert<T>(model), "成功");
+                    return BllResultFactory<int?>.Success(connection.Insert<T>(model), "成功");
                 }
                 catch (Exception ex)
                 {
-                    return BLLResultFactory<int?>.Error("发生异常:" + ex.Message);
+                    return BllResultFactory<int?>.Error("发生异常:" + ex.Message);
                 }
             }
         }

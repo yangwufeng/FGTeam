@@ -161,7 +161,7 @@ namespace BLL.Services
         //  / <param name = "response" ></ param >
         // / < param name="flag"></param>
         /// <returns></returns>
-        public BLLResult<int?> LogInterface(string interfaceName, string request, string response,LogLevel flag, string content, string remark)
+        public BllResult<int?> LogInterface(string interfaceName, string request, string response,LogLevel flag, string content, string remark)
         {
             InterfaceLog interfaceLog = new InterfaceLog();
             interfaceLog.InterfaceName = interfaceName;

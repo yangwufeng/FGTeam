@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models.BLLModel
 {
-    public enum BLLResultCode
+    public enum BllResultCode
     {
         OK,
         Fail,

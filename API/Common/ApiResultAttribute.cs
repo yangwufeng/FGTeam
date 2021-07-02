@@ -29,7 +29,7 @@ namespace API.Common
                 requestString = reader.ReadToEnd();
             }
             ApiResultModel result = new ApiResultModel();
-            var bllResule = actionExecutedContext.ActionContext.Response.Content.ReadAsAsync<BLLResult>().Result;
+            var bllResule = actionExecutedContext.ActionContext.Response.Content.ReadAsAsync<BllResult>().Result;
             if (bllResule.Success)
             {
                 result.Code = System.Net.HttpStatusCode.OK;
