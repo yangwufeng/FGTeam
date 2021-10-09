@@ -48,111 +48,113 @@ namespace UI
 
         private void open_Click(object sender, RoutedEventArgs e)
         {
-            open.IsEnabled = false;
-            //IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(ip.Text), int.Parse(port.Text));//接收端所监听的接口,ip也可以用IPAddress.Any
-            IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse("192.168.10.11"), int.Parse(port.Text));//接收端所监听的接口,ip也可以用IPAddress.Any
-
-            SocketServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);//初始化一个Socket对象
-            SocketServer.Bind(ipEnd);//绑定套接字到一个IP地址和一个端口上(bind())；
-            SocketServer.Listen(10);
-
-
-
-            new Thread(delegate ()
-        {
-            //lock (obj)
-            //{
-            Socket clientSocket = null;
-            while (Stop)
+            try
             {
 
+                open.IsEnabled = false;
+                //IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(ip.Text), int.Parse(port.Text));//接收端所监听的接口,ip也可以用IPAddress.Any
+                IPEndPoint ipEnd = new IPEndPoint(IPAddress.Any, int.Parse(port.Text));//接收端所监听的接口,ip也可以用IPAddress.Any
 
-                Stopwatch sw = new Stopwatch();
-                // 开始计时
-                sw.Start();
-
-
-                clientSocket = SocketServer.Accept(); //一旦接受连接，创建一个客户端
-                var RemoteEndPoint = string.Empty;
-                dicSocket.Add(RemoteEndPoint = clientSocket.RemoteEndPoint.ToString(), clientSocket);
-
-
-                App.Current.Dispatcher.Invoke(() =>
-                    {
-                        list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "连接ip：" + RemoteEndPoint + "\n"));
-                    });
-
-
-                Task.Run(() =>
-                     {
-                         while (Stop)
-                         {
-                             var str = "";
-                             //服务端接收
-                             byte[] buffer = new byte[1024 * 1024 * 2];
-                             int r = clientSocket.Receive(buffer);
-                             if (r == 0)
-                             {
-                                 break;
-                             }
-                             if (encode.GetString(buffer, 0, r - 1) == "newmark")
-                             {
-                                 str = encode.GetString(buffer, 0, r);
-
-                             }
-                             else
-                             {
-                                 str = encode.GetString(buffer, 0, r);
-                                 App.Current.Dispatcher.Invoke(() =>
-                                         {
-                                             list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
-                                             this.list_box.ScrollIntoView(this.list_box.ItemContainerGenerator);
-
-                                         });
-                             }
-                         }
-
-                     });
-
-            }
-
-
-            //}
-
-        })
-            { IsBackground = true }.Start();
+                SocketServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);//初始化一个Socket对象
+                SocketServer.Bind(ipEnd);//绑定套接字到一个IP地址和一个端口上(bind())；
+                SocketServer.Listen(10);
 
 
 
-            Task.Run(() =>
+                new Thread(delegate ()
             {
-
+                //lock (obj)
+                //{
+                object o = new object();
+                Socket clientSocket = o as Socket;
                 while (Stop)
                 {
 
-                    Thread.Sleep(1000);
 
-                    this.Dispatcher.Invoke(() =>
+                    Stopwatch sw = new Stopwatch();
+                    // 开始计时
+                    sw.Start();
+
+                    clientSocket = SocketServer.Accept(); //一旦接受连接，创建一个客户端
+                    var RemoteEndPoint = string.Empty;
+                    dicSocket.Add(RemoteEndPoint = clientSocket.RemoteEndPoint.ToString(), clientSocket);
+
+                    if (dicSocket.ContainsKey(RemoteEndPoint))
                     {
-                        List<string> keys = new List<string>();
-                        keys.AddRange(dicSocket.Keys);
-                        foreach (var item in keys)
+                        App.Current.Dispatcher.Invoke(() =>
                         {
-                            if (dicSocket[item].Poll(10, SelectMode.SelectRead))
-                            {
-                                dicSocket.Remove(item);
-                            }
-                            else
-                            {
-                                lab_Count.Content = dicSocket.Values.Count.ToString();
-                            }
-                        }
-                    });
+                            list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "连接ip：" + RemoteEndPoint + "\n"));
+                        });
+
+                    }
+
+                    Task.Run(() =>
+                         {
+                             while (Stop)
+                             {
+                                 var str = "";
+                                 //服务端接收
+                                 byte[] buffer = new byte[1024 * 1024 * 2];
+                                 int r = clientSocket.Receive(buffer);
+                                 if (r == 0)
+                                 {
+                                     break;
+                                 }
+
+                                 Dispatcher.Invoke(() =>
+                                            {
+                                                list_box.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + encode.GetString(buffer, 0, r) + "\n"));
+                                                this.list_box.ScrollIntoView(this.list_box.ItemContainerGenerator);
+                                            });
+                             }
+
+                         });
+
                 }
-            });
+
+
+                //}
+
+            })
+                { IsBackground = true }.Start();
 
 
 
+                Task.Run(() =>
+                {
+
+                    while (Stop)
+                    {
+
+                        Thread.Sleep(1000);
+
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            List<string> keys = new List<string>();
+                            keys.AddRange(dicSocket.Keys);
+                            foreach (var item in keys)
+                            {
+                                if (dicSocket[item].Poll(10, SelectMode.SelectRead))
+                                {
+                                    dicSocket.Remove(item);
+                                }
+                                else
+                                {
+                                    lab_Count.Content = dicSocket.Values.Count.ToString();
+                                }
+                            }
+                        });
+                    }
+                });
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         private void Btn_Send_Click(object sender, RoutedEventArgs e)
@@ -165,7 +167,7 @@ namespace UI
                     continue;
                 }
                 byte[] msgbyte = encode.GetBytes(this.txt_msg.Text);
-                Thread.Sleep(10);
+                Thread.Sleep(1000);
                 item.Value.Send(msgbyte);
             }
 
@@ -191,27 +193,19 @@ namespace UI
                             {
 
                                 var str = "";
-                                        //客户端接收
-                                        byte[] buffer = new byte[1024 * 1024 * 2];
+                                //客户端接收
+                                byte[] buffer = new byte[1024 * 1024 * 2];
                                 int r = Socketclient.Receive(buffer);
                                 if (r == 0)
                                 {
                                     break;
                                 }
-                                if (encode.GetString(buffer, 0, r - 1) == "newmark")
-                                {
-                                    str = encode.GetString(buffer, 0, r);
 
-                                }
-                                else
+                                App.Current.Dispatcher.Invoke(() =>
                                 {
-                                    str = encode.GetString(buffer, 0, r);
-                                    App.Current.Dispatcher.Invoke(() =>
-                                    {
-                                        list_box1.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + str + "\n"));
-                                        this.list_box1.ScrollIntoView(this.list_box1.SelectedItem);
-                                    });
-                                }
+                                    list_box1.Items.Add(NewText(DateTime.Now.ToString("yy-MM-dd hh:mm:ss") + "内容：" + encode.GetString(buffer, 0, r) + "\n"));
+                                    this.list_box1.ScrollIntoView(this.list_box1.SelectedItem);
+                                });
 
                             }
                         });
@@ -238,28 +232,28 @@ namespace UI
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            try
-            {
-                open.IsEnabled = true;
-                Stop = false;
-                Thread.Sleep(1000);
-                if (SocketServer == null)
-                    return;
-                if (!SocketServer.Connected)
-                    return;
-                SocketServer?.Shutdown(SocketShutdown.Both);
-                Socketclient?.Shutdown(SocketShutdown.Both);
+            //try
+            //{
+            //    open.IsEnabled = true;
+            //    Stop = false;
+            //    Thread.Sleep(1000);
+            //    if (SocketServer == null)
+            //        return;
+            //    if (!SocketServer.Connected)
+            //        return;
+            //    SocketServer?.Shutdown(SocketShutdown.Both);
+            //    Socketclient?.Shutdown(SocketShutdown.Both);
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                SocketServer?.Close();
-                Socketclient?.Close();
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+            //finally
+            //{
+            //    SocketServer?.Close();
+            //    Socketclient?.Close();
+            //}
 
         }
 

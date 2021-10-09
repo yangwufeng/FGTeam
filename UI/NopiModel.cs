@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace UI
 {
- public   static   class NopiModel
+    public static class NopiModel
     {
         #region 从Excel导入
 

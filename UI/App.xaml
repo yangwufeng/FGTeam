@@ -84,7 +84,9 @@
             <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10" Color="{DynamicResource Primary400}" />
             <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{DynamicResource Primary500Foreground}" />-->
 
+            <FontFamily x:Key="ico" >pack://application,,,/UI;component/Images/#iconfont</FontFamily>
 
         </ResourceDictionary>
+
     </Application.Resources>
 </Application>

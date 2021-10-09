@@ -12,7 +12,7 @@
             <RowDefinition Height="378*"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel>
-            <Label>在线人:</Label>
+            <Label >在线人:</Label>
             <Label HorizontalAlignment="Left" Name="lab_Count"></Label>
         </DockPanel>
         <DockPanel Grid.Row="1" >
@@ -74,9 +74,10 @@
                         <DockPanel Grid.Column="1">
                             <Button x:Name="btn_Out" Height="40"  Width="72" Click="btn_Out_Click" >发送</Button>
                         </DockPanel>
-                        <DockPanel Grid.Column="2">
+                        <StackPanel Grid.Column="2">
                             <TextBox x:Name="txt_info" Height="40" ></TextBox>
-                        </DockPanel>
+                            <Label x:Name="ss"  Content="&#xe603;" FontFamily="{StaticResource ico}" FontSize="30" ></Label>
+                        </StackPanel>
                     </Grid>
                 </TabItem>
             </TabControl>
